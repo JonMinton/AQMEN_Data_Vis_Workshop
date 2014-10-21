@@ -33,7 +33,6 @@ ds_1 <- subset(
     "edsldf_positive_p_2013",	
     "simd12",  
     "simd09",	
-    "edsqass4avgts1011",	
     "dec_simd12",	
     "q_simd12",
     "crsimdcrime_totno2011",  
@@ -71,80 +70,73 @@ year_part <- 2000 + year_part
 ds_1$year <- year_part
 rm(year_part)
 
-# I'm now goint to separate ds_1 into two smaller datasets
-# one in which the year is the last two digits
-# the other in which the year is the last four digits
-
-var_4 <- c(
-  "crsimdcrime_totrat2004",
-  "crsimdcrime_totrat2008",
-  "crsimdcrime_totrat2011",
-  "edsldf_other_p_2008",  
-  "edsldf_other_p_2009", 
-  "edsldf_other_p_2011",
-  "edsldf_other_p_2012",
-  "edsldf_other_p_2013",  
-  "edsldf_positive_p_2008",
-  "edsldf_positive_p_2009",  
-  "edsldf_positive_p_2010",  
-  "edsldf_positive_p_2011",	
-  "edsldf_positive_p_2012",	
-  "edsldf_positive_p_2013",	
-  "crsimdcrime_totno2011",  
-  "crsimdcrime_totno2008",
-  "crsimdcrime_totno2004",
-  "simd2004",  
-  "simd2006"  
-  )
-
-ds_1_var_4 <- subset(
-  ds_1, 
-  subset=variable %in% var_4
-  )
 
 # Take numbers and replace them with ""
+require(stringr)
 
-ds_1_var_4$variable <- str_replace(ds_1_var_4$variable,
-                                   "[0123456789]{1,4}", ""
+
+ds_1$variable <- str_replace(ds_1$variable,
+                                   "[0-9]{1,}", ""
                                    )
 
-var_2 <- c(
-  "simd12",  
-  "simd09",	
-  "edsqass4avgts1011",	
-  "dec_simd12",	
-  "q_simd12"
+unique(ds_1$variable)
+
+require(plyr)
+
+ds_1$variable <- revalue(
+  ds_1$variable,
+  c(
+    "crsimdcrime_totrat"="crime_rate",
+    "edsldf_positive_p_" = "school_leaver_pos_rate",
+    "edsldf_other_p_"="school_leaver_other_rate",
+    "dec_simd"="simd_decile",
+    "q_simd"="simd_quintile",
+    "crsimdcrime_totno"="crime_count"
+    )
   )
 
-# 
-# DS 1
-# datazone
-# crsimdcrime_totrat2004  
-# crsimdcrime_totrat2008	
-# crsimdcrime_totrat2011	
-# edsldf_other_p_2008	
-# edsldf_other_p_2009	
-# edsldf_other_p_2011	
-# edsldf_other_p_2012	
-# edsldf_other_p_2013	
-# edsldf_positive_p_2008	
-# edsldf_positive_p_2009	
-# edsldf_positive_p_2010	
-# edsldf_positive_p_2011	
-# edsldf_positive_p_2012	
-# edsldf_positive_p_2013	
-# simd12  
-# simd09	
-# simd09v2	
-# edsqass4avgts1011	
-# dec_simd12	
-# q_simd12
-# crsimdcrime_totno2011  
-# crsimdcrime_totno2008	
-# crsimdcrime_totno2004
-# simd2004  
-# simd2006
 
+ds_1_tidy <- dcast(ds_1, id.var=c("datazone", "year"), ... ~ variable)
+ds_1_tidy <- arrange(ds_1_tidy, year, datazone)
+
+# Next example
+
+jsa_vars <- str_detect(
+  names(data),
+  "^no_total_jsa"
+  )
+
+names(data)[jsa_vars]
+
+ds_jsa <- subset(
+  data,
+  select=c(
+    "datazone",
+    names(data)[jsa_vars]       
+           )
+  )
+
+ds_jsa <- melt(
+  ds_jsa,
+  id.var=c("datazone")
+  )
+
+# In all cases, the date information is contained in the section of the name from the 
+# _ character to the end of the string
+
+ds_jsa$month_year <- str_match(
+  ds_jsa$variable,
+  "[^_]*?$"
+  )
+
+# year only
+
+ds_jsa$year <- str_sub(ds_jsa$variable, str_length(ds_jsa$variable) - 1)
+ds_jsa$year <- as.numeric(ds_jsa$year)
+
+is_99 <- which(ds_jsa$year==99)
+ds_jsa$year[is_99] <- ds_jsa$year[is_99] + 1900
+ds_jsa$year[!is_99] <- ds_jsa$year[!is_99] + 2000
 
 # D2
 # no_total_jsa_august99  
