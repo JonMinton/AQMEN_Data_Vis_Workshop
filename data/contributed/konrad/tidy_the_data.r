@@ -101,6 +101,7 @@ ds_1_tidy <- arrange(ds_1_tidy, year, datazone)
 
 ds_1_tidy[,-1] <- apply(ds_1_tidy[,-1], 2, as.numeric)
 
+write.csv(ds_1_tidy, file="data/contributed/konrad/tidier/data_1.csv")
 
 ###############################################################
 # Next example
@@ -193,3 +194,4 @@ ds_jsa <- dcast(
 ds_jsa <- arrange(ds_jsa, year_combined, datazone)
 
 
+write.csv(ds_jsa, file="data/contributed/konrad/tidier/data_jsa.csv")
