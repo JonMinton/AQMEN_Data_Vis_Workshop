@@ -108,6 +108,14 @@ ds_1_var_4$variable <- str_replace(ds_1_var_4$variable,
                                    "[0123456789]{1,4}", ""
                                    )
 
+###
+> unique(ds_1_var_4$variable)
+[1] "crsimdcrime_totrat" "edsldf_other_p_"    "edsldf_positive_p_" "crsimdcrime_totno" 
+[5] "simd" 
+
+
+
+
 var_2 <- c(
   "simd12",  
   "simd09",	
