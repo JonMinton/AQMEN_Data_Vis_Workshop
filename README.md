@@ -11,4 +11,6 @@ The code contains commands for producing twenty distinct ggplot2 visualisations.
 the figures subdirectory of the folder. 
 
 ## ***Suggested Task***
-- Download the R script file, and the associated figures, and reproduce the figures using the script
+- View the R script file, available [here] (https://github.com/JonMinton/AQMEN_Data_Vis_Workshop/tree/master/additional_material/chickweight_code_example.r), and for each ggplot command write down your guess about what the visualisation will produce. 
+- Compare your guesses to the figures produced, available in the figures subdirectory. How many did you guess correctly?
+-Download the R script file, and the associated figures, and reproduce the figures using the script.
