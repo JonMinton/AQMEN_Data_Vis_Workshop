@@ -1,6 +1,6 @@
 #to start with, it can be useful to clear R's workspace, so that only the 
 # R objects you want to be there are available, and you're not accidentally 
-# using a version of an object from a previous section. A good command for cleaning
+# using a version of an object from a previous session. A good command for cleaning
 # the workspace is 
 rm(list=ls())
 
@@ -63,7 +63,6 @@ class(ChickWeight)
 # by asking for the class of each of the variables in the ChickWeight dataframe one at a
 # time, which we can do using $ symbol as follows:
 
-
 class(ChickWeight$weight)
 class(ChickWeight$Time)
 class(ChickWeight$Chick)
@@ -71,9 +70,9 @@ class(ChickWeight$Diet)
 
 # The classes of objects usually are set implicitly, though they can be set manually. 
 # It is important to know the classes of objects, in particular the classes of different
-# variables in datasets, when working with ggplot2 in R more generally, as if the 
-# variable does not have the class you expect it to have then R will not interpret it,
-# and ggplot2 will not draw it, the way you want it to be drawn. 
+# variables in datasets, when working with ggplot2 as well as in R more generally, as if the 
+# variable does not have the class you expect it to have then R may not interpret it,
+# and ggplot2 will not draw it, the way you might expect it to be. 
 # This is an example of one of the many reasons it's important to know quite a lot about 
 # how R works as a programming language in order to use it effectively as a statistical
 # software and data visaualisation platform. 
@@ -140,8 +139,6 @@ qplot(
     data=ChickWeight, 
     geom="line"
 )
-
-
 
 
 g1 <- qplot(
