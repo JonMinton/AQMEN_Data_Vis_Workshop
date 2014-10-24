@@ -1,4 +1,4 @@
-AQMEN_Data_Vis_Workshop
+GitHub Repository for the AQMEN Data Visualisation Workshop
 =======================
 
 Material for the AQMEN Data Visualisation Workshop held on Glasgow on 22-23 October 2014
